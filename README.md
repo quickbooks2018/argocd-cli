@@ -35,3 +35,28 @@ argocd proj get <PROJECT_NAME> -o yaml
 argocd proj get <PROJECT_NAME> -o json
 argocd proj get argocd-example -o yaml
 ```
+
+- create argocd application
+```bash
+argocd cluster list
+```
+```bash
+argocd app create <APP_NAME> --repo <REPO_URL> --path <PATH> --dest-server <DESTINATION_CLUSTER> --dest-namespace <NAMESPACE> --revision <REVISION> --project <PROJECT_NAME>
+
+argocd app create solar-system-app-2 \
+  --repo https://3000-port-5e56ae83eb434424.labs.kodekloud.com/bob/gitops-argocd \
+  --path ./solar-system \
+  --dest-server https://kubernetes.default.svc \
+  --dest-namespace solar-system \
+  --project default
+```
+
+- sync argocd application
+```bash
+argocd app sync <APP_NAME>
+argocd app sync solar-system-app-2
+```
+- argocd application list
+```bash
+argocd app list
+```
