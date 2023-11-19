@@ -8,11 +8,22 @@ kubectl -n argocd port-forward svc/argocd-server --address 0.0.0.0 8091:443
 argocd login <ARGOCD_SERVER> --username <ARGOCD_USERNAME> --password <ARGOCD_PASSWORD> --insecure
 argocd login localhost:8091 --insecure --username admin --password $(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)
 ```
+
+- Get Secret Value with JQ
 ```bash
 argocd get secrets -n argocd
 kubectl get secrets/argocd-secret -o json -n argocd | jq '.data["admin.password"]' -r | base64 --decode
 ```
 
+- Login with argocd
+```bash
+argocd login localhost:8091 --insecure --username admin --password $(kubectl get secrets/argocd-secret -o json -n argocd | jq '.data["admin.password"]' -r | base64 --decode)
+```
+
+- Login with argocd without password mention on command line
+```bash
+argocd login localhost:8091 --insecure --username admin
+```
 - List Argocd Projects
 ```bash
 argocd proj list
